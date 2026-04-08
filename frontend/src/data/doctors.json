@@ -1,53 +1,152 @@
-{
-  "d1": {
-    "id": "d1",
+[
+  {
+    "id": "D-20101",
+    "password": "doc123",
     "name": "Dr. Rajesh Sharma",
     "specialization": "Cardiologist",
     "experience": "12 years",
-    "contact_info": "r.sharma@apollo-clinic.in",
-    "works_at": "Apollo Hospital, Delhi",
-    "slots_available": [
-      { "date": "2026-04-06", "time": "09:00 AM", "duration": "30 mins" },
-      { "date": "2026-04-06", "time": "09:30 AM", "duration": "30 mins" },
-      { "date": "2026-04-07", "time": "11:00 AM", "duration": "30 mins" }
-    ]
+    "contact_info": "rajesh@clinic.com",
+    "works_at": "City Hospital",
+    "slots_available": [{ "date": "2026-04-10", "time": "09:00 AM", "duration": "30 mins" }]
   },
-  "d2": {
-    "id": "d2",
+  {
+    "id": "D-20102",
+    "password": "doc123",
     "name": "Dr. Anjali Gupta",
     "specialization": "Neurologist",
     "experience": "8 years",
-    "contact_info": "dr.anjali@fortis.in",
-    "works_at": "Fortis Healthcare, Mumbai",
-    "slots_available": [
-      { "date": "2026-04-05", "time": "02:00 PM", "duration": "45 mins" },
-      { "date": "2026-04-06", "time": "04:00 PM", "duration": "45 mins" }
-    ]
+    "contact_info": "anjali@clinic.com",
+    "works_at": "City Hospital",
+    "slots_available": [{ "date": "2026-04-11", "time": "10:00 AM", "duration": "45 mins" }]
   },
-  "d3": {
-    "id": "d3",
+  {
+    "id": "D-20103",
+    "password": "doc123",
     "name": "Dr. Vikram Reddy",
     "specialization": "General Physician",
     "experience": "5 years",
-    "contact_info": "vikram.med@care-hospitals.in",
-    "works_at": "Care Clinic, Hyderabad",
-    "slots_available": [
-      { "date": "2026-04-05", "time": "10:00 AM", "duration": "15 mins" },
-      { "date": "2026-04-05", "time": "10:15 AM", "duration": "15 mins" },
-      { "date": "2026-04-05", "time": "10:30 AM", "duration": "15 mins" },
-      { "date": "2026-04-06", "time": "01:00 PM", "duration": "15 mins" }
-    ]
+    "contact_info": "vikram@clinic.com",
+    "works_at": "Care Clinic",
+    "slots_available": [{ "date": "2026-04-10", "time": "11:00 AM", "duration": "15 mins" }]
   },
-  "d4": {
-    "id": "d4",
+  {
+    "id": "D-20104",
+    "password": "doc123",
     "name": "Dr. Sneha Patel",
     "specialization": "Dermatologist",
     "experience": "10 years",
-    "contact_info": "contact@patelskin.in",
-    "works_at": "Patel Skin Clinic, Ahmedabad",
-    "slots_available": [
-      { "date": "2026-04-07", "time": "11:30 AM", "duration": "20 mins" },
-      { "date": "2026-04-07", "time": "12:00 PM", "duration": "20 mins" }
-    ]
+    "contact_info": "sneha@clinic.com",
+    "works_at": "Skin Center",
+    "slots_available": [{ "date": "2026-04-12", "time": "12:00 PM", "duration": "20 mins" }]
+  },
+  {
+    "id": "D-20105",
+    "password": "doc123",
+    "name": "Dr. Amit Singh",
+    "specialization": "Orthopedic",
+    "experience": "15 years",
+    "contact_info": "amit@clinic.com",
+    "works_at": "Bone & Joint Clinic",
+    "slots_available": [{ "date": "2026-04-11", "time": "02:00 PM", "duration": "30 mins" }]
+  },
+  {
+    "id": "D-20106",
+    "password": "doc123",
+    "name": "Dr. Pooja Desai",
+    "specialization": "Pediatrician",
+    "experience": "7 years",
+    "contact_info": "pooja@clinic.com",
+    "works_at": "Kids Hospital",
+    "slots_available": [{ "date": "2026-04-13", "time": "09:30 AM", "duration": "20 mins" }]
+  },
+  {
+    "id": "D-20107",
+    "password": "doc123",
+    "name": "Dr. Rahul Verma",
+    "specialization": "Psychiatrist",
+    "experience": "9 years",
+    "contact_info": "rahul@clinic.com",
+    "works_at": "Mind Care",
+    "slots_available": [{ "date": "2026-04-14", "time": "04:00 PM", "duration": "45 mins" }]
+  },
+  {
+    "id": "D-20108",
+    "password": "doc123",
+    "name": "Dr. Neha Kapoor",
+    "specialization": "Gynecologist",
+    "experience": "11 years",
+    "contact_info": "neha@clinic.com",
+    "works_at": "Women's Health",
+    "slots_available": [{ "date": "2026-04-10", "time": "01:00 PM", "duration": "30 mins" }]
+  },
+  {
+    "id": "D-20109",
+    "password": "doc123",
+    "name": "Dr. Sanjay Kumar",
+    "specialization": "ENT",
+    "experience": "6 years",
+    "contact_info": "sanjay@clinic.com",
+    "works_at": "City Hospital",
+    "slots_available": [{ "date": "2026-04-11", "time": "03:30 PM", "duration": "20 mins" }]
+  },
+  {
+    "id": "D-20110",
+    "password": "doc123",
+    "name": "Dr. Kavita Joshi",
+    "specialization": "Ophthalmologist",
+    "experience": "14 years",
+    "contact_info": "kavita@clinic.com",
+    "works_at": "Vision Clinic",
+    "slots_available": [{ "date": "2026-04-15", "time": "10:30 AM", "duration": "20 mins" }]
+  },
+  {
+    "id": "D-20111",
+    "password": "doc123",
+    "name": "Dr. Manish Tiwari",
+    "specialization": "Urologist",
+    "experience": "8 years",
+    "contact_info": "manish@clinic.com",
+    "works_at": "City Hospital",
+    "slots_available": [{ "date": "2026-04-12", "time": "11:30 AM", "duration": "30 mins" }]
+  },
+  {
+    "id": "D-20112",
+    "password": "doc123",
+    "name": "Dr. Ritu Malhotra",
+    "specialization": "Endocrinologist",
+    "experience": "10 years",
+    "contact_info": "ritu@clinic.com",
+    "works_at": "Hormone Care",
+    "slots_available": [{ "date": "2026-04-13", "time": "02:30 PM", "duration": "30 mins" }]
+  },
+  {
+    "id": "D-20113",
+    "password": "doc123",
+    "name": "Dr. Deepak Sethi",
+    "specialization": "Gastroenterologist",
+    "experience": "13 years",
+    "contact_info": "deepak@clinic.com",
+    "works_at": "Digestive Health",
+    "slots_available": [{ "date": "2026-04-14", "time": "09:00 AM", "duration": "30 mins" }]
+  },
+  {
+    "id": "D-20114",
+    "password": "doc123",
+    "name": "Dr. Sunita Rao",
+    "specialization": "Pulmonologist",
+    "experience": "7 years",
+    "contact_info": "sunita@clinic.com",
+    "works_at": "Lungs Clinic",
+    "slots_available": [{ "date": "2026-04-10", "time": "04:30 PM", "duration": "30 mins" }]
+  },
+  {
+    "id": "D-20115",
+    "password": "doc123",
+    "name": "Dr. Tarun Bhatia",
+    "specialization": "Oncologist",
+    "experience": "16 years",
+    "contact_info": "tarun@clinic.com",
+    "works_at": "Hope Center",
+    "slots_available": [{ "date": "2026-04-15", "time": "12:00 PM", "duration": "45 mins" }]
   }
-}
+]
