@@ -34,7 +34,7 @@ const Login = () => {
     const expected = sessionStorage.getItem("expectedOTP");
     
     if (otp === expected) {
-      alert("Success! Patient logged in.");
+      // alert("Success! Patient logged in.");
     
       try {
         const response = await fetch("http://localhost:5000/api/auth/patient/login", {
@@ -78,7 +78,7 @@ const Login = () => {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          doctorId: identifier,
+          email: identifier,
           password: password
         })
       })
@@ -185,11 +185,11 @@ const Login = () => {
           <div>
             <form onSubmit={handleDoctorSubmit}>
               <div className="flex flex-col mb-4">
-                <label htmlFor="docId" className="mb-2 text-sm font-semibold text-gray-700">Doctor ID</label>
+                <label htmlFor="docEmail" className="mb-2 text-sm font-semibold text-gray-700">Doctor Email</label>
                 <input
-                  type="text"
-                  id="docId"
-                  placeholder="e.g. D-20101"
+                  type="email"
+                  id="docEmail"
+                  placeholder="e.g. example@gmail.com"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
                   required
@@ -212,6 +212,7 @@ const Login = () => {
                 Log In
               </button>
             </form>
+            
           </div>
         )}
 

@@ -4,6 +4,7 @@ import PatientPortal from "./pages/PatientPortal"
 import DoctorPortal from "./pages/DoctorPortal"
 import { DataProvider } from "./contexts/DataContext";
 import { AuthProvider } from "./contexts/AuthContext";
+import SignUp from "./pages/SignUp";
 
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+
             <Route path="/patient" element={<PatientPortal />} />
             <Route path="/doctor" element={<DoctorPortal />} />
 

@@ -1,48 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+// import React, { useEffect, useState } from 'react'
 import { IoIosLogOut } from "react-icons/io";
+import useAuth from '../hooks/useAuth';
 
 const DoctorPortal = () => {
-  const [doctorData, setDoctorData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user: doctorData, logout, loading, error } = useAuth();
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchDoctorDetials = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        navigate("/");
-        return;
-      }
-
-      try {
-        const response = await fetch("http://localhost:5000/api/auth/me", {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        })
-
-        if (response.ok) {
-          const data = await response.json();
-          setDoctorData(data);
-        } else {
-          localStorage.removeItem("token");
-          navigate("/");
-        }
-      } catch (error) {
-        console.error("Error fetching user", error);
-      } finally {
-        setLoading(false);
-
-      }
-    }
-
-    fetchDoctorDetials()
-  }, [navigate]);
+   if (error) {
+    return <div className="min-h-screen flex items-center justify-center text-xl font-bold">Something went wrong...</div>;
+  }
 
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center text-xl font-bold">Loading your medical file...</div>;
@@ -58,10 +23,7 @@ const DoctorPortal = () => {
             <p className="text-gray-500 mt-1">Doctor ID: {doctorData.id} | {doctorData.specialization}</p>
           </div>
           <button
-            onClick={() => {
-              localStorage.clear();
-              navigate("/");
-            }}
+            onClick={logout}
             className="px-4 py-2 text-lg font-semibold text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
           >
             <IoIosLogOut />
