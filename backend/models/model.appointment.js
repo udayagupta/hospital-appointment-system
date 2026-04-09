@@ -12,7 +12,8 @@ const appointmentSchema = new mongoose.Schema({
     type: String, 
     enum: ['Scheduled', 'Completed', 'Cancelled'], 
     default: 'Scheduled' 
-  }
+  },
+  duration: { type: String, required: true, default: "30 mins" },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Appointment", appointmentSchema);

@@ -136,7 +136,7 @@ app.post("/api/auth/doctor/register", async (req, res) => {
 })
 
 app.post("/api/appointments/book", async (req, res) => {
-  const { patientId, doctorId, date, time } = req.body;
+  const { patientId, doctorId, date, time, duration } = req.body;
 
   try {
     const doctor = await Doctor.findOne({ id: doctorId });
@@ -162,7 +162,8 @@ app.post("/api/appointments/book", async (req, res) => {
       doctorName: doctor.name,
       date,
       time,
-      status: "Scheduled"
+      status: "Scheduled",
+      duration
     });
     
     await newAppt.save();
@@ -183,6 +184,48 @@ app.post("/api/appointments/book", async (req, res) => {
     res.status(500).json({ message: "Server error while booking an appointment" })
   }
 })
+
+// Patch Routes
+app.patch("/api/appointments/:appointmentId/status", async (req, res) => {
+  const { appointmentId } = req.params;
+  const { status } = req.body;
+
+  try {
+    const appointment = await Appointment.findOne({ appointmentId });
+    if (!appointment) return res.status(404).json({ message: "Appointment not found!" });
+    
+    if (status === "Cancelled" && appointment.status !== "Cancelled") {
+      const doctor = await Doctor.findOne({ id: appointment.doctorId });
+
+      if (doctor) {
+        doctor.slots_available.push({
+          date: appointment.date,
+          time: appointment.time,
+          duration: appointment.duration
+        })
+
+        doctor.slots_available.sort((a, b) => {
+          if (a.date === b.date) return a.time.localeCompare(b.time);
+          return new Date(a.date) - new Date(b.date);
+        });
+
+        await doctor.save();
+      }
+
+    }
+
+    appointment.status = status;
+    await appointment.save();
+
+    res.json({ message: `Appointment successfully marked as ${status}`, appointment })
+  
+  } catch (err) {
+    console.error(`Error while updating the appointment status`, err);
+    res.status(500).json({ message: "Server error while updating the appointment status" })
+  }
+
+})
+
 
 // Data Routes
 app.get("/api/doctors", async (req, res) => {

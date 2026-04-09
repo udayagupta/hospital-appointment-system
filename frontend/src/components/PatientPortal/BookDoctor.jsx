@@ -20,7 +20,8 @@ const BookDoctor = ({ loadingDoctors, doctors, patientData }) => {
           patientId: patientData.id,
           doctorId: selectedBooking.doctor.id,
           date: selectedBooking.slot.date,
-          time: selectedBooking.slot.time
+          time: selectedBooking.slot.time,
+          duration: selectedBooking.slot.duration || "30 mins"
         })
       });
 
