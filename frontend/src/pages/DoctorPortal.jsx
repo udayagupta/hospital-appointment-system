@@ -1,37 +1,51 @@
-// import React, { useEffect, useState } from 'react'
-import { IoIosLogOut } from "react-icons/io";
 import useAuth from '../hooks/useAuth';
+import PortalHeader from "../components/PortalHeader/PortalHeader";
 
 const DoctorPortal = () => {
   const { user: doctorData, logout, loading, error } = useAuth();
 
    if (error) {
-    return <div className="min-h-screen flex items-center justify-center text-xl font-bold">Something went wrong...</div>;
+    return <div className="min-h-screen flex items-center justify-center text-xl font-bold bg-slate-800 text-slate-200">Something went wrong...</div>;
   }
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center text-xl font-bold">Loading your medical file...</div>;
+    return <div className="min-h-screen flex items-center justify-center text-xl font-bold bg-slate-800 text-slate-200">Loading your medical file...</div>;
   }
 
-
   return (
-    <div className='min-h-screen bg-slate-800 p-8'>
+    <div className="min-h-screen bg-slate-800 p-8">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 mb-6 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800">Welcome back, {doctorData.name} 👋</h1>
-            <p className="text-gray-500 mt-1">Doctor ID: {doctorData.id} | {doctorData.specialization}</p>
+        
+        <PortalHeader />
+
+        <div className="grid grid-cols-1 gap-6">
+          
+          <div className="bg-slate-900 p-6 rounded-xl shadow-md border border-slate-700">
+            <h2 className="text-xl font-bold text-slate-100 mb-4 flex items-center">
+              <span className="text-blue-400 mr-2">🕒</span> Your Available Slots
+            </h2>
+            
+            {doctorData.slots_available && doctorData.slots_available.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {doctorData.slots_available.map((slot, index) => (
+                  <div key={index} className="p-4 bg-slate-800 rounded-lg border border-slate-600 flex flex-col items-center justify-center transition-colors hover:border-slate-500">
+                    <p className="font-bold text-blue-400">{slot.date}</p>
+                    <p className="text-blue-300 font-medium">{slot.time}</p>
+                    <p className="text-xs text-slate-400 mt-1">{slot.duration}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-slate-400 italic bg-slate-800 p-4 rounded-lg text-center border border-slate-700">
+                You have no available slots open for booking right now.
+              </p>
+            )}
           </div>
-          <button
-            onClick={logout}
-            className="px-4 py-2 text-lg font-semibold text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
-          >
-            <IoIosLogOut />
-          </button>
+
         </div>
       </div>
     </div>
   )
 }
 
-export default DoctorPortal
+export default DoctorPortal;

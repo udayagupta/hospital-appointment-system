@@ -1,13 +1,5 @@
-export const isSlotInFuture = () => {
-    
-} 
-
-
-export const slotAvailable = (slot) => {
-    const slotDate = new Date(`${slot.date} ${slot.time}`);
-    const currentDate = new Date();
-
-    if (slotDate > currentDate) return true;
-
-    return false;
-}
+export const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const [year, month, day] = dateString.split("-");
+    return `${day}-${month}-${year}`;
+  };

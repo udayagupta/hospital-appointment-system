@@ -6,6 +6,9 @@ const cors = require("cors");
 
 const Doctor = require("./models/model.doctor");
 const Patient = require("./models/model.patient");
+const Appointment = require("./models/model.appointment");
+
+const LOGGED_IN_EXPIRES = "3h"
 
 const app = express();
 
@@ -27,7 +30,7 @@ app.post("/api/auth/patient/login", async (req, res) => {
     if (!patient)
       return res.status(404).json({ message: "Patient not found!" });
 
-    const token = jwt.sign({ id: patient.id, role: "patient" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: patient.id, role: "patient" }, process.env.JWT_SECRET, { expiresIn: LOGGED_IN_EXPIRES });
 
     res.json({ message: "Login Successful", token, user: patient });
   } catch (error) {
@@ -44,7 +47,7 @@ app.post("/api/auth/doctor/login", async (req, res) => {
     if (!doctor || doctor.password !== password)
       return res.status(401).json({ message: "Invalid ID or password" });
 
-    const token = jwt.sign({ id: doctor.id, role: "doctor" }, process.env.JWT_SECRET, { expiresIn: "1h" },);
+    const token = jwt.sign({ id: doctor.id, role: "doctor" }, process.env.JWT_SECRET, { expiresIn: LOGGED_IN_EXPIRES },);
 
     res.json({ message: "Login Successful", token, user: doctor });
   } catch (error) {
@@ -84,7 +87,7 @@ app.post("/api/auth/patient/register", async (req, res) => {
 
     await newPatient.save();
 
-    const token = jwt.sign({ id: newPatient.id, role: "patient" }, process.env.JWT_SECRET, { expiresIn: "1h" })
+    const token = jwt.sign({ id: newPatient.id, role: "patient" }, process.env.JWT_SECRET, { expiresIn: LOGGED_IN_EXPIRES })
     res.json({ message: "Registration Complete", token, user: newPatient })
   
   } catch (error) {
@@ -123,13 +126,62 @@ app.post("/api/auth/doctor/register", async (req, res) => {
 
     await newDoctor.save();
 
-    const token = jwt.sign({ id: newDoctor.id, role: "doctor" }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ id: newDoctor.id, role: "doctor" }, process.env.JWT_SECRET, { expiresIn: LOGGED_IN_EXPIRES });
     res.json({ message: "New Doctor registration is complete", token, user: newDoctor });
     
  } catch (error) {
   console.error("Error registering new doctor", error);
   res.status(500).json({ message: "Server error" });
  }
+})
+
+app.post("/api/appointments/book", async (req, res) => {
+  const { patientId, doctorId, date, time } = req.body;
+
+  try {
+    const doctor = await Doctor.findOne({ id: doctorId });
+    const patient = await Patient.findOne({ id: patientId });
+
+    if (!patient || !doctor) return res.status(404).json({ message: "Patient or Doctor not found!" })
+
+    let generatedId = "";
+    let isUnique = false;
+    while (!isUnique) {
+      generatedId = "A-" + Math.floor(10000 + Math.random() * 90000);
+      const idCheck = await Appointment.findOne({ id: generatedId });
+      if (!idCheck) {
+        isUnique = true;
+      }
+    }
+
+    const newAppt = new Appointment({
+      appointmentId: generatedId,
+      patientId,
+      doctorId,
+      patientName: patient.name,
+      doctorName: doctor.name,
+      date,
+      time,
+      status: "Scheduled"
+    });
+    
+    await newAppt.save();
+
+    doctor.slots_available = doctor.slots_available.filter(
+      (slot) => !(slot.date === date && slot.time === time)
+    );
+
+    patient.current_appointments.push(newAppt);
+
+    await patient.save();
+    await doctor.save();
+
+    res.json({ message: "Appointment Booked", appointment: newAppt })
+
+  } catch (error) {
+    console.error("Error while booking an appointment", error);
+    res.status(500).json({ message: "Server error while booking an appointment" })
+  }
 })
 
 // Data Routes
@@ -141,6 +193,30 @@ app.get("/api/doctors", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+app.get("/api/appointments", async (req, res) => {
+  const { patientId, doctorId } = req.query;
+
+  try {
+    let query = {};
+
+    if (patientId) {
+      query.patientId = patientId.trim();
+    }
+
+    if (doctorId) {
+      query.doctorId = doctorId.trim();
+    }
+
+    const appointments = await Appointment.find(query).sort({ date: 1, time: 1 });
+
+    res.json(appointments);
+  
+  } catch (error) {
+    console.error("Error fetching appointments", error);
+    res.status(500).json({ message: "Server error while fetching appointments" });
+  }
+})
 
 app.get("/api/auth/me", async (req, res) => {
   try {

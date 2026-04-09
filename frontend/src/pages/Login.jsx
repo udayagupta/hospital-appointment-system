@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
   const [role, setRole] = useState("patient");
@@ -34,8 +34,6 @@ const Login = () => {
     const expected = sessionStorage.getItem("expectedOTP");
     
     if (otp === expected) {
-      // alert("Success! Patient logged in.");
-    
       try {
         const response = await fetch("http://localhost:5000/api/auth/patient/login", {
           method: "POST",
@@ -59,7 +57,7 @@ const Login = () => {
           navigate("/patient");
         }
       } catch (error) {
-        alert("Invlid code, try again!");
+        alert("Invalid code, try again!");
       };
 
     } else {
@@ -104,29 +102,29 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-800 font-sans p-4">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md border border-gray-100">
+      <div className="bg-slate-900 p-8 rounded-2xl shadow-lg w-full max-w-md border border-slate-700">
         
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-1">
+        <h2 className="text-2xl font-bold text-slate-100 text-center mb-1">
           {role === 'patient' ? 'Patient Portal' : 'Provider Login'}
         </h2>
-        <p className="text-sm text-gray-500 text-center mb-8">
+        <p className="text-sm text-slate-400 text-center mb-8">
           Please sign in to continue
         </p>
 
         <div className="flex flex-col mb-6">
-          <label htmlFor="role" className="mb-2 text-sm font-semibold text-gray-700">I am a:</label>
+          <label htmlFor="role" className="mb-2 text-sm font-semibold text-slate-300">I am a:</label>
           <select 
             id="role" 
             value={role} 
             onChange={handleRoleChange}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white"
+            className="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100"
           >
             <option value="patient">Patient</option>
             <option value="doctor">Doctor</option>
           </select>
         </div>
 
-        <hr className="border-t border-gray-200 my-6" />
+        <hr className="border-t border-slate-700 my-6" />
 
         {/* --- PATIENT FORM --- */}
         {role === "patient" && (
@@ -134,7 +132,7 @@ const Login = () => {
             {step === 1 ? (
               <form onSubmit={handlePatientStep1}>
                 <div className="flex flex-col mb-5">
-                  <label htmlFor="identifier" className="mb-2 text-sm font-semibold text-gray-700">Email Address</label>
+                  <label htmlFor="identifier" className="mb-2 text-sm font-semibold text-slate-300">Email Address</label>
                   <input
                     type="email"
                     id="identifier"
@@ -142,17 +140,17 @@ const Login = () => {
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    className="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100 placeholder-slate-500"
                   />
                 </div>
-                <button type="submit" className="w-full py-3 rounded-lg font-semibold bg-blue-600 text-white mt-2 hover:bg-blue-700 transition-colors">
+                <button type="submit" className="w-full py-3 rounded-lg font-semibold bg-blue-600 text-white mt-2 hover:bg-blue-500 transition-colors">
                   Send Login Code
                 </button>
               </form>
             ) : (
               <form onSubmit={handlePatientStep2}>
                 <div className="flex flex-col mb-5">
-                  <label htmlFor="otp" className="mb-2 text-sm font-semibold text-gray-700">Enter 4-Digit Code</label>
+                  <label htmlFor="otp" className="mb-2 text-sm font-semibold text-slate-300">Enter 4-Digit Code</label>
                   <input
                     type="text"
                     id="otp"
@@ -161,17 +159,17 @@ const Login = () => {
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors tracking-[0.5em] text-center text-lg font-bold"
+                    className="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors tracking-[0.5em] text-center text-lg font-bold bg-slate-800 text-slate-100 placeholder-slate-600"
                   />
-                  <small className="mt-2 text-xs text-gray-500 text-center">We sent a code to {identifier}</small>
+                  <small className="mt-2 text-xs text-slate-400 text-center">We sent a code to {identifier}</small>
                 </div>
-                <button type="submit" className="w-full py-3 rounded-lg font-semibold bg-blue-600 text-white mt-2 hover:bg-blue-700 transition-colors">
+                <button type="submit" className="w-full py-3 rounded-lg font-semibold bg-blue-600 text-white mt-2 hover:bg-blue-500 transition-colors">
                   Verify & Log In
                 </button>
                 <button 
                   type="button" 
                   onClick={() => setStep(1)}
-                  className="w-full py-3 rounded-lg font-semibold bg-transparent text-blue-600 border border-blue-600 mt-3 hover:bg-blue-50 transition-colors"
+                  className="w-full py-3 rounded-lg font-semibold bg-transparent text-blue-400 border border-blue-500 mt-3 hover:bg-blue-500/10 transition-colors"
                 >
                   Back
                 </button>
@@ -185,7 +183,7 @@ const Login = () => {
           <div>
             <form onSubmit={handleDoctorSubmit}>
               <div className="flex flex-col mb-4">
-                <label htmlFor="docEmail" className="mb-2 text-sm font-semibold text-gray-700">Doctor Email</label>
+                <label htmlFor="docEmail" className="mb-2 text-sm font-semibold text-slate-300">Doctor Email</label>
                 <input
                   type="email"
                   id="docEmail"
@@ -193,11 +191,11 @@ const Login = () => {
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100 placeholder-slate-500"
                 />
               </div>
               <div className="flex flex-col mb-6">
-                <label htmlFor="password" className="mb-2 text-sm font-semibold text-gray-700">Password</label>
+                <label htmlFor="password" className="mb-2 text-sm font-semibold text-slate-300">Password</label>
                 <input
                   type="password"
                   id="password"
@@ -205,17 +203,19 @@ const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100 placeholder-slate-500"
                 />
               </div>
-              <button type="submit" className="w-full py-3 rounded-lg font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+              <button type="submit" className="w-full py-3 rounded-lg font-semibold bg-blue-600 text-white hover:bg-blue-500 transition-colors">
                 Log In
               </button>
             </form>
             
           </div>
         )}
-
+        <p className="mt-6 text-center text-sm text-slate-400">
+          Don't have an account? <Link to="/signup" className="text-blue-400 font-semibold hover:underline">Register Here</Link>
+        </p>
       </div>
     </div>
   );

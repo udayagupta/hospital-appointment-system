@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Clear old errors
 
     const endpoint = role === "patient"
       ? "http://localhost:5000/api/auth/patient/register"
@@ -35,7 +36,6 @@ const SignUp = () => {
         body: JSON.stringify(payload)
       })
 
-      
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.token);
@@ -63,22 +63,23 @@ const SignUp = () => {
 
     } catch (error) {
       console.error("Error registering", error);
+      setError("Could not connect to the server.");
     }
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-800 font-sans p-4 py-10">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md border border-gray-100">
+      <div className="bg-slate-900 p-8 rounded-2xl shadow-lg w-full max-w-md border border-slate-700">
 
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-1">Create an Account</h2>
-        <p className="text-sm text-gray-500 text-center mb-6">Join our hospital appointment system</p>
+        <h2 className="text-2xl font-bold text-slate-100 text-center mb-1">Create an Account</h2>
+        <p className="text-sm text-slate-400 text-center mb-6">Join our hospital appointment system</p>
 
         <div className="flex flex-col mb-6">
-          <label className="mb-2 text-sm font-semibold text-gray-700">I am registering as a:</label>
+          <label className="mb-2 text-sm font-semibold text-slate-300">I am registering as a:</label>
           <select
             value={role}
             onChange={(e) => setRole(e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+            className="w-full px-4 py-3 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100"
           >
             <option value="patient">Patient</option>
             <option value="doctor">Doctor</option>
@@ -88,16 +89,16 @@ const SignUp = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Shared Fields */}
           <div>
-            <label className="block mb-1 text-sm font-semibold text-gray-700">Full Name</label>
-            <input type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="e.g. Rahul Verma" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            <label className="block mb-1 text-sm font-semibold text-slate-300">Full Name</label>
+            <input type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="e.g. Rahul Verma" className="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100 placeholder-slate-500" />
           </div>
           <div>
-            <label className="block mb-1 text-sm font-semibold text-gray-700">Email</label>
-            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="e.g. rahul@mail.com" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            <label className="block mb-1 text-sm font-semibold text-slate-300">Email</label>
+            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="e.g. rahul@mail.com" className="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100 placeholder-slate-500" />
           </div>
           <div>
-            <label className="block mb-1 text-sm font-semibold text-gray-700">Password</label>
-            <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="Create a password" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            <label className="block mb-1 text-sm font-semibold text-slate-300">Password</label>
+            <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="Create a password" className="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100 placeholder-slate-500" />
           </div>
 
           {/* Patient Specific Fields */}
@@ -105,12 +106,12 @@ const SignUp = () => {
             <>
               <div className="flex gap-4">
                 <div className="w-1/2">
-                  <label className="block mb-1 text-sm font-semibold text-gray-700">Age</label>
-                  <input type="number" required value={age} onChange={e => setAge(e.target.value)} placeholder="e.g. 28" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                  <label className="block mb-1 text-sm font-semibold text-slate-300">Age</label>
+                  <input type="number" required value={age} onChange={e => setAge(e.target.value)} placeholder="e.g. 28" className="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100 placeholder-slate-500" />
                 </div>
                 <div className="w-1/2">
-                  <label className="block mb-1 text-sm font-semibold text-gray-700">Gender</label>
-                  <select value={gender} onChange={e => setGender(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white">
+                  <label className="block mb-1 text-sm font-semibold text-slate-300">Gender</label>
+                  <select value={gender} onChange={e => setGender(e.target.value)} className="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100">
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
@@ -118,8 +119,8 @@ const SignUp = () => {
                 </div>
               </div>
               <div>
-                <label className="block mb-1 text-sm font-semibold text-gray-700">City</label>
-                <input type="text" required value={city} onChange={e => setCity(e.target.value)} placeholder="e.g. Delhi" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                <label className="block mb-1 text-sm font-semibold text-slate-300">City</label>
+                <input type="text" required value={city} onChange={e => setCity(e.target.value)} placeholder="e.g. Delhi" className="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100 placeholder-slate-500" />
               </div>
             </>
           )}
@@ -128,24 +129,29 @@ const SignUp = () => {
           {role === "doctor" && (
             <>
               <div>
-                <label className="block mb-1 text-sm font-semibold text-gray-700">Specialization</label>
-                <input type="text" required value={specialization} onChange={e => setSpecialization(e.target.value)} placeholder="e.g. Cardiologist" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                <label className="block mb-1 text-sm font-semibold text-slate-300">Specialization</label>
+                <input type="text" required value={specialization} onChange={e => setSpecialization(e.target.value)} placeholder="e.g. Cardiologist" className="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100 placeholder-slate-500" />
               </div>
               <div>
-                <label className="block mb-1 text-sm font-semibold text-gray-700">Years of Experience</label>
-                <input type="number" required value={experience} onChange={e => setExperience(e.target.value)} placeholder="e.g. 10" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+                <label className="block mb-1 text-sm font-semibold text-slate-300">Years of Experience</label>
+                <input type="number" required value={experience} onChange={e => setExperience(e.target.value)} placeholder="e.g. 10" className="w-full px-4 py-2 border border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-slate-800 text-slate-100 placeholder-slate-500" />
               </div>
             </>
           )}
 
-          {error && <div className='mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm text-center font-medium'>{error}</div>}
-          <button type="submit" className="w-full py-3 mt-4 rounded-lg font-semibold bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+          {error && (
+            <div className='mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-sm text-center font-medium'>
+              ⚠️ {error}
+            </div>
+          )}
+          
+          <button type="submit" className="w-full py-3 mt-4 rounded-lg font-semibold bg-blue-600 text-white hover:bg-blue-500 transition-colors">
             Sign Up
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-600">
-          Already have an account? <Link to="/" className="text-blue-600 font-semibold hover:underline">Log in here</Link>
+        <p className="mt-6 text-center text-sm text-slate-400">
+          Already have an account? <Link to="/" className="text-blue-400 font-semibold hover:underline">Log in here</Link>
         </p>
 
       </div>
@@ -153,4 +159,4 @@ const SignUp = () => {
   );
 }
 
-export default SignUp
+export default SignUp;
