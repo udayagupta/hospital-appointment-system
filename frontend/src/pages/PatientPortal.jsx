@@ -36,11 +36,12 @@ const PatientPortal = () => {
   }
 
   return (
-    <div className='min-h-screen bg-slate-800 p-8'>
-      <div className="max-w-5xl mx-auto">
-        <PortalHeader />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className='min-h-screen bg-slate-800'>
+      <PortalHeader />
+      <div className=" mx-auto border">
+        <div className="flex flex-col w-full">
           <UpcomingAppointments appointments={appointments} apptLoading={apptLoading} />
+          <hr className='text-slate-700'/>
           <BookDoctor doctors={doctors} patientData={patientData} loadingDoctors={loadingDoctors}/>
         </div>
       </div>

@@ -121,7 +121,8 @@ app.post("/api/auth/doctor/register", async (req, res) => {
       experience: experience + " years",
       contact_info: email,
       works_at: "Hospital Appointment System",
-      slots_available: []
+      slots_available: [],
+      current_appointments: []
     });
 
     await newDoctor.save();
@@ -172,7 +173,16 @@ app.post("/api/appointments/book", async (req, res) => {
       (slot) => !(slot.date === date && slot.time === time)
     );
 
+    if (!doctor.current_appointments) {
+      doctor.current_appointments = [];
+    }
+
+    if (patient.current_appointments) {
+      patient.current_appointments = [];
+    }
+
     patient.current_appointments.push(newAppt);
+    doctor.current_appointments.push(newAppt);
 
     await patient.save();
     await doctor.save();

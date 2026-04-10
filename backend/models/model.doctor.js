@@ -6,11 +6,12 @@ const doctorSchema = new mongoose.Schema({
   name: { type: String, required: true },
   specialization: { type: String, required: true },
   experience: { type: String, required: true },
-  contact_info: { type: String, required: true, unique: true }, // The email
+  contact_info: { type: String, required: true, unique: true },
   works_at: { type: String, required: true },
-  slots_available: { type: Array, default: [] }
+  slots_available: { type: Array, default: [] },
+  current_appointments: { type: Array, default: [] }
 }, { 
-  timestamps: true // Automatically adds createdAt and updatedAt
+  timestamps: true
 });
 
 module.exports = mongoose.model("Doctor", doctorSchema);
