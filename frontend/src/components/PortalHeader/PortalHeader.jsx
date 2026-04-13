@@ -3,6 +3,7 @@ import useAuth from '../../hooks/useAuth'
 import { FaLocationDot } from 'react-icons/fa6';
 import { IoIosLogOut } from 'react-icons/io';
 import { FaUser } from "react-icons/fa";
+import { IoFemale, IoMale } from "react-icons/io5";
 
 const PortalHeader = () => {
   const { user, loading, error, logout } = useAuth();
@@ -23,7 +24,7 @@ const PortalHeader = () => {
       </div>
       <div className="w-full py-4 flex justify-between px-5 items-center">
         <div>
-          <h1 className="text-2xl font-bold text-slate-100">{user.name}</h1>
+          <h1 className="text-2xl flex items-center font-bold text-slate-100">{user.name} {userRole === "patient" && <span className='text-[17px] ml-2' title={user.gender}>{user.gender === "Female" ? <IoFemale /> : <IoMale />}</span>} </h1>
           {
             userRole === "doctor" ? (
               <p className="text-sm text-slate-400 mt-1">

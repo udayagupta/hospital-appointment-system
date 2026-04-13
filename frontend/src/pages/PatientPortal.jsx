@@ -36,9 +36,9 @@ const PatientPortal = () => {
   }
 
   return (
-    <div className='min-h-screen bg-slate-800'>
+    <div className='min-h-screen bg-slate-900'>
       <PortalHeader />
-      <div className=" mx-auto border">
+      <div>
         <div className="flex flex-col w-full">
           <UpcomingAppointments appointments={appointments} apptLoading={apptLoading} />
           <hr className='text-slate-700'/>

@@ -299,5 +299,39 @@ app.get("/api/auth/me", async (req, res) => {
   }
 });
 
+app.get("/api/doctors/:doctorId", async (req, res) => {
+  const { doctorId } = req.params;
+
+  try {
+
+    const doctor = await Doctor.findOne({ id: doctorId });
+
+    if (!doctor) {
+      return res.status(404).json({ message: `Doctor with ID: ${doctorId} was not found!`});
+    }
+
+    res.json(doctor);
+
+  } catch (error) {
+    console.error(`Error Fetching Doctor`, error);
+    res.status(500).json({ message: "Server Error" })
+  }
+});
+
+app.get("/api/patients/:patientId", async (req, res) => {
+  const { patientId } = req.params;
+
+  try {
+    const patient = await Patient.findOne({ id: patientId });
+
+    if (!patient) return res.status(404).json({ message: `Patient with ID: ${patientId} was not found!`});
+    res.json(patient)
+
+  } catch (error) {
+    console.error("Server error while fetching patient's details")
+    res.status(500).json({ message: "Server Error" });
+  }
+})
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { formatDate } from '../../utils/helpers';
 import PopUpModal from '../PopUpModal/PopUpModal';
+import useUpdateAppointment from '../../hooks/useUpdateAppointment';
 
 const UpcomingAppointments = ({ apptLoading, appointments }) => {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [cancellationFailed, setCancellationFailed] = useState(null);
+  const { updateStatus, isUpdating, updatingError } = useUpdateAppointment();
 
   const [activeTab, setActiveTab] = useState("upcoming");
 
@@ -19,22 +21,10 @@ const UpcomingAppointments = ({ apptLoading, appointments }) => {
   }
 
   const handleCancelAppointment = async (appointmentId) => {
-    try {
-      const response = await fetch(`http://localhost:5000/api/appointments/${appointmentId}/status`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "Cancelled" })
-      })
-
-      if (response.ok) {
-        alert("Appointment has been cancelled!")
-        window.location.reload();
-      } else {
-        const data = await response.json();
-        setCancellationFailed(data.message);
-      }
-    } catch (error) {
-      console.error("Error cancelling:", error)
+    const response = await updateStatus(appointmentId, "Cancelled");
+    if (response) {
+      // alert("Appointment has been cancelled");
+      window.location.reload();
     }
   }
 
@@ -44,7 +34,7 @@ const UpcomingAppointments = ({ apptLoading, appointments }) => {
   const displayedAppointments = activeTab === "upcoming" ? upcomingAppts : pastAppts;
 
   return (
-    <div className="bg-slate-900 p-6  h-full flex flex-col">
+    <div className=" p-6  h-full flex flex-col">
       <div className="flex justify-between items-center mb-5 shrink-0">
         <h2 className="text-xl font-bold text-slate-100 flex items-center">
           <span className="text-green-400 mr-2">📅</span> Your Appointments
@@ -168,7 +158,8 @@ const UpcomingAppointments = ({ apptLoading, appointments }) => {
               disabled={selectedAppointment.status === "Cancelled"}
               onClick={() => handleCancelAppointment(selectedAppointment.appointmentId)}
             >
-              {selectedAppointment.status === "Cancelled" ? "Already Cancelled" : "Cancel Appointment"}
+              {isUpdating ? "Cancelling..." : selectedAppointment.status === "Cancelled" ? "Already Cancelled" : "Cancel Appointment"}
+
             </button>
           </div>
         )}
