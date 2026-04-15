@@ -177,7 +177,7 @@ app.post("/api/appointments/book", async (req, res) => {
       doctor.current_appointments = [];
     }
 
-    if (patient.current_appointments) {
+    if (!patient.current_appointments) {
       patient.current_appointments = [];
     }
 

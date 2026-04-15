@@ -28,7 +28,6 @@ const DoctorPortal = () => {
     <div className="min-h-screen bg-slate-900">
       <PortalHeader />
       <div className="">
-      { appts?.length === 0 && <p>No current appointments</p> }
       {apptLoading ? (
         <p>Appointments Loading...</p>
       ) : (
