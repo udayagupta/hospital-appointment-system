@@ -3,7 +3,7 @@ const router = express.Router();
 const ctrl = require("../controllers/doctor.controller");
 const protect = require("../middleware/auth");
 
-router.get("/", protect, ctrl.getDoctors);
-router.get("/:doctorId", protect, ctrl.getDoctor);
+router.get("/",  ctrl.getDoctors);
+router.get("/:doctorId", ctrl.getDoctor);
 
 module.exports = router;

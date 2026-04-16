@@ -1,9 +1,23 @@
 const jwt = require("jsonwebtoken");
 const Doctor = require("../models/model.doctor");
 const Patient = require("../models/model.patient");
-const generateUniqueId = require("../utils/backend.helpers");
 
 const EXPIRES = "3h";
+
+const generateUniqueId = async (prefix, Model) => {
+    let generatedId = "";
+    let isUnique = false;
+    while (!isUnique) {
+        generatedId = prefix + Math.floor(10000 + Math.random() * 90000);
+        const checkId = await Model.findOne({ id: generatedId });
+
+        if (!checkId) {
+            isUnique = true;
+        }
+    }
+
+    return generatedId;
+};
 
 
 const signToken = (id, role) => {
@@ -66,24 +80,25 @@ exports.doctorLogin = async (req, res) => {
 
 // POST: /api/auth/patient/register
 exports.patientRegister = async (req, res) => {
-    const { email, password, age, gender, city } = req.body;
+    const { email, name, password, age, gender, city } = req.body;
 
-    if (!email || !password || !age || !gender || !city) {
+    if (!name ||  !email || !password || !age || !gender || !city) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
     try {
 
-        const existingUser = await Patient.findOne({ "contact.info": email });
+        const existingUser = await Patient.findOne({ "contact_info.email": email });
         if (existingUser) return res.status(400).json({ message: "Email already in use!" });
         
-        const generatedId = generateUniqueId("P-", Patient);
+        const generatedId = await generateUniqueId("P-", Patient);
 
         const newPatient = new Patient({
             id: generatedId,
             name,
             password,
             age: Number(age),
+            gender,
             contact_info: { email },
             medical_history: [],
             current_appointments: [],
@@ -119,7 +134,7 @@ exports.doctorRegister = async (req, res) => {
         const existingUser = await Doctor.findOne({ contact_info: email });
         if (existingUser) return res.status(400).json({ message: "Email already in use!" });
     
-        const generatedId = generateUniqueId("D-", Doctor);
+        const generatedId = await generateUniqueId("D-", Doctor);
 
         const newDoctor = new Doctor({
             id: generatedId,

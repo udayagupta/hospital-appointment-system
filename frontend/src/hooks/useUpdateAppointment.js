@@ -8,9 +8,11 @@ const useUpdateAppointment = () => {
     setIsUpdating(true);
     
     try {
+      const token = localStorage.getItem("token");
+
       const response = await fetch(`http://localhost:5000/api/appointments/${apptId}/status`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ status: newStatus })
       });
 

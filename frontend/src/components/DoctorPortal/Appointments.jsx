@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { formatDate } from '../../utils/helpers';
 import SelectedAppointmentModal from './SelectedAppointmentModal';
 
@@ -36,6 +36,10 @@ const Appointments = ({ appts }) => {
       setIsFetchingPatient(false);
     }
   }
+
+  useEffect(() => {
+    console.log(patients)
+  }, [patients]);
 
   return (
     <div className='bg-slate-900 p-6 h-full flex flex-col'>

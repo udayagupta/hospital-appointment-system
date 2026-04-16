@@ -21,9 +21,6 @@ const DoctorPortal = () => {
     return <div className="min-h-screen flex items-center justify-center text-xl font-bold bg-slate-800 text-slate-200">Loading your medical file...</div>;
   }
 
-
-
-
   return (
     <div className="min-h-screen bg-slate-900">
       <PortalHeader />

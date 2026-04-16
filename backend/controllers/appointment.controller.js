@@ -42,7 +42,7 @@ exports.bookAppointment = async (req, res) => {
 
         await newAppt.save();
 
-        doctor.slots_available.filter((slot) => !(slot.date === date && slot.time === time));
+        doctor.slots_available = doctor.slots_available.filter((slot) => !(slot.date === date && slot.time === time));
 
         if (!patient.current_appointments) patient.current_appointments = [];
         if (!doctor.current_appointments) doctor.current_appointments = [];
@@ -69,7 +69,7 @@ exports.updateStatus = async (req, res) => {
     const { appointmentId } = req.params;
 
     if (!status || !appointmentId) {
-        res.status(400).json({ message: "Status and Appointment ID are required!" });
+        return res.status(400).json({ message: "Status and Appointment ID are required!" });
     }
 
     const validStatuses = ["Scheduled", "Cancelled", "Completed"];
@@ -78,7 +78,7 @@ exports.updateStatus = async (req, res) => {
     }
 
     try {
-        const appointment = await Appointment.findOne({ appointment });
+        const appointment = await Appointment.findOne({ appointmentId });
 
         if (!appointment) return res.status(404).json({ message: "Appointment not found" });
 
@@ -96,16 +96,18 @@ exports.updateStatus = async (req, res) => {
             })
 
             doctor.slots_available.sort((a, b) => {
-                if (a.date === b.date) return a.time.localCompare(b.time);
+                if (a.date === b.date) return a.time.localeCompare(b.time);
                 return new Date(a.date) - new Date(b.date);
             })
 
-            await Doctor.save();
+            await doctor.save();
         }
 
         appointment.status = status;
+        await appointment.save();
+
         res.json({
-            message: `Appointment successfully marked as ${statys}`,
+            message: `Appointment successfully marked as ${status}`,
             appointment
         })
     } catch (error) {
@@ -115,11 +117,11 @@ exports.updateStatus = async (req, res) => {
 };
 
 exports.getAppointments = async (req, res) => {
-    const { patientId, doctorId } = req.body;
+    const { patientId, doctorId } = req.query;
 
     let query = {};
-    if (patientId) query.patientId = patientId;
-    if (doctorId) query.doctorId = doctorId;
+    if (patientId) query.patientId = patientId.trim();
+    if (doctorId) query.doctorId = doctorId.trim();
 
     try {
         const appointments = await Appointment.find(query).sort({ date: 1, time: 1});

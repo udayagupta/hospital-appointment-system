@@ -1,4 +1,4 @@
-export const generateUniqueId = async (prefix, Model) => {
+module.exports = generateUniqueId = async (prefix, Model) => {
     let generatedId = "";
     let isUnique = false;
     while (!isUnique) {
@@ -12,3 +12,4 @@ export const generateUniqueId = async (prefix, Model) => {
 
     return generatedId;
 };
+

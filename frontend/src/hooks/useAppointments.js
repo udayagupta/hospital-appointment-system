@@ -16,7 +16,8 @@ const useAppointments = (patientId = null, doctorId = null) => {
           query += `?doctorId=${doctorId}`;
         }
 
-        const response = await fetch(query);
+        const token = localStorage.getItem("token");
+        const response = await fetch(query, { headers: { "Authorization": `Bearer ${token}` } });
 
         if (!response.ok) { throw new Error("Failed to fetch appointments!") };
 
