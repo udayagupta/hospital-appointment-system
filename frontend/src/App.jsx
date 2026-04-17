@@ -5,6 +5,8 @@ import DoctorPortal from "./pages/DoctorPortal"
 import { DataProvider } from "./contexts/DataContext";
 import { AuthProvider } from "./contexts/AuthContext";
 import SignUp from "./pages/SignUp";
+import PatientProfile from "./components/UserProfile/PatientProfile";
+import DoctorProfile from "./components/UserProfile/DoctorProfile";
 
 
 function App() {
@@ -20,6 +22,10 @@ function App() {
 
             <Route path="/patient" element={<PatientPortal />} />
             <Route path="/doctor" element={<DoctorPortal />} />
+
+            <Route path="/patientProfile" element={<PatientProfile />}/>
+            <Route path="/doctorProfile" element={<DoctorProfile />}/>
+
 
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

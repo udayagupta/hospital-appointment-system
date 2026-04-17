@@ -34,12 +34,11 @@ const UpcomingAppointments = ({ apptLoading, appointments }) => {
   const displayedAppointments = activeTab === "upcoming" ? upcomingAppts : pastAppts;
 
   return (
-    <div className=" p-6  h-full flex flex-col">
-      <div className="flex justify-between items-center mb-5 shrink-0">
-        <h2 className="text-xl font-bold text-slate-100 flex items-center">
+    <div className="p-6 h-full flex flex-col">
+      <div className='flex justify-between items-center mb-5 shrink-0'>
+        <h2 className="text-xl font-bold mb-5 text-slate-100 flex items-center shrink-0">
           <span className="text-green-400 mr-2">📅</span> Your Appointments
         </h2>
-
         <div className="flex bg-slate-800 p-1 rounded-lg border border-slate-700">
           <button 
             onClick={() => setActiveTab('upcoming')}
@@ -62,6 +61,7 @@ const UpcomingAppointments = ({ apptLoading, appointments }) => {
             History
           </button>
         </div>
+
       </div>
 
       {apptLoading ? (

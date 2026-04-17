@@ -27,3 +27,33 @@ exports.getDoctors = async (req, res) => {
         res.status(500).json({ message: "Server error while fetching doctors" })
     }
 };
+
+exports.generateSlots = async (req, res) => {
+    const { doctorId } = req.params;
+    const { slots } = req.body;
+
+    if (!doctorId) return res.status(400).json({ message: "Doctor Id is required!" });
+
+    if (!slots || slots.length === 0) {
+        return res.status(400).json({ message: "No slots provided" });
+    }
+
+    try {
+        const doctor = await Doctor.findOne({ id: doctorId });
+        if (!doctor) res.status(404).json({ message: "Doctor not found!" });
+
+        doctor.slots_available.push(...slots);
+
+        doctor.slots_available.sort((a, b) => {
+            if (a.date === b.date) return a.time.localeCompare(b.time);
+            return new Date(a.date) - new Date(b.date);
+        });
+
+        await doctor.save();
+
+        res.json({ message: "Slots generated successfully!" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error while generating slots for doctor" })
+    }
+}

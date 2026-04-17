@@ -6,6 +6,7 @@ import useUpdateAppointment from '../hooks/useUpdateAppointment';
 import Appointments from '../components/DoctorPortal/Appointments';
 import usePatient from '../hooks/usePatient';
 import { useState } from "react";
+import AppointmentsStats from '../components/DoctorPortal/AppointmentsStats';
 
 const DoctorPortal = () => {
   const { user: doctorData, logout, loading, error } = useAuth();
@@ -25,6 +26,7 @@ const DoctorPortal = () => {
     <div className="min-h-screen bg-slate-900">
       <PortalHeader />
       <div className="">
+      <AppointmentsStats appointments={appts}/>
       {apptLoading ? (
         <p>Appointments Loading...</p>
       ) : (

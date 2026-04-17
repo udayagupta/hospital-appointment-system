@@ -7,6 +7,8 @@ const Appointments = ({ appts }) => {
   const [patients, setPatients] = useState({});
   const [isFetchingPatient, setIsFetchingPatient] = useState(false);
 
+  const [activeTab, setActiveTab] = useState("upcoming");
+
   const handleSelectedAppointment = async (appt) => {
     const pId = appt.patientId;
 
@@ -36,29 +38,55 @@ const Appointments = ({ appts }) => {
       setIsFetchingPatient(false);
     }
   }
-
-  useEffect(() => {
-    console.log(patients)
-  }, [patients]);
+  
+  const upcomingAppts = appts?.filter(appt => appt.status === "Scheduled") || [];
+  const pastAppts = appts?.filter(appt => appt.status !== "Scheduled") || [];
+  
+  const displayedAppointments = activeTab === "upcoming" ? upcomingAppts : pastAppts;
 
   return (
     <div className='bg-slate-900 p-6 h-full flex flex-col'>
-      <h2 className="text-xl font-bold mb-5 text-slate-100 flex items-center shrink-0">
-        <span className="text-green-400 mr-2">📅</span> Your Appointments
-      </h2>
+      <div className='flex justify-between items-center mb-5 shrink-0'>
+        <h2 className="text-xl font-bold  text-slate-100 flex justify-center  items-center shrink-0">
+          <span className="text-green-400 mr-2">📅</span> Your Appointments
+        </h2>
+        <div className="flex bg-slate-800 p-1 rounded-lg border border-slate-700">
+          <button 
+            onClick={() => setActiveTab('upcoming')}
+            className={`px-4 py-1.5 text-sm font-bold rounded-md transition-all duration-200 ${
+              activeTab === 'upcoming' 
+              ? 'bg-blue-600 text-white shadow-sm' 
+              : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            Upcoming
+          </button>
+          <button 
+            onClick={() => setActiveTab('past')}
+            className={`px-4 py-1.5 text-sm font-bold rounded-md transition-all duration-200 ${
+              activeTab === 'past' 
+              ? 'bg-blue-600 text-white shadow-sm' 
+              : 'text-slate-400 hover:text-slate-200'
+            }`}
+          >
+            History
+          </button>
+        </div>
 
-      {appts?.length === 0 ? (
+      </div>
+
+      {displayedAppointments?.length === 0 ? (
         <p className="text-slate-400 italic bg-slate-800 p-6 rounded-xl text-center border border-slate-700 flex-1">
           No current appointments
         </p>
       ) : (
-        <ul className='space-y-4 overflow-y-auto max-h-[550px] py-2 custom-scrollbar flex-1'>
-          {appts?.map((appt) => (
+        <ul className='space-y-4 overflow-y-auto max-h-137.5 py-2 custom-scrollbar flex-1'>
+          {displayedAppointments?.map((appt) => (
             <li
               key={appt._id}
               onClick={() => handleSelectedAppointment(appt)}
               className={`relative text-white overflow-hidden p-5 rounded-xl border cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${appt.status === 'Cancelled'
-                  ? 'bg-slate-800/30 border-slate-700/50 grayscale-[20%]'
+                  ? 'bg-slate-800/30 border-slate-700/50 grayscale-20'
                   : 'bg-slate-800 border-slate-700 shadow-sm hover:shadow-md hover:border-slate-500 hover:bg-slate-800/80'
                 }`}
             >
