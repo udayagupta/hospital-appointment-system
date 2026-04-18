@@ -7,6 +7,7 @@ import Appointments from '../components/DoctorPortal/Appointments';
 import usePatient from '../hooks/usePatient';
 import { useState } from "react";
 import AppointmentsStats from '../components/DoctorPortal/AppointmentsStats';
+import DoctorSlots from '../components/DoctorPortal/DoctorSlots';
 
 const DoctorPortal = () => {
   const { user: doctorData, logout, loading, error } = useAuth();
@@ -32,6 +33,7 @@ const DoctorPortal = () => {
       ) : (
         <Appointments appts={appts}/>
       )}
+      <DoctorSlots slots_available={doctorData.slots_available}/>
       </div>
     </div>
   )
