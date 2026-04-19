@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const Doctor = require("../models/model.doctor");
 const Patient = require("../models/model.patient");
+const { cleanExpiredSlots } = require("../utils/backend.helpers").default;
 
 const EXPIRES = "3h";
 
@@ -39,6 +40,8 @@ exports.patientLogin = async (req, res) => {
 
         if (!patient) return res.status(404).json("Patient not found!");
 
+        await cleanExpiredSlots(Doctor);
+
         const token = signToken(patient.id, "patient");
 
         res.json({
@@ -64,6 +67,10 @@ exports.doctorLogin = async (req, res) => {
         const doctor = await Doctor.findOne({ contact_info: email });
 
         if (!doctor) return res.status(404).json({ message: "Doctor not found!" });
+
+        await cleanExpiredSlots(Doctor);
+
+        await doctor.save();
 
         const token = signToken(doctor.id, "doctor");
 
